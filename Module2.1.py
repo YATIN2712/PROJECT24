@@ -27,12 +27,12 @@ tokens = ('BEGINTABLE',
 'OPENTABLE', 'CLOSETABLE', 'OPENROW', 'CLOSEROW',
 'OPENHEADER', 'CLOSEHEADER', 'OPENHREF', 'CLOSEHREF',
 'CONTENT', 'OPENDATA', 'CLOSEDATA' ,'OPENSPAN',
-'CLOSESPAN', 'OPENDIV', 'CLOSEDIV', 'OPENSTYLE', 'CLOSESTYLE','GARBAGE')
+'CLOSESPAN', 'OPENDIV', 'CLOSEDIV', 'OPENSTYLE', 'CLOSESTYLE','GARBAGE', 'OPENP','CLOSEP')
 t_ignore = '\t'
 
 ###############Tokenizer Rules################
 def t_BEGINTABLE(t):
-     r'<table.class="infobox.vevent".style="width:24em"><tbody><tr><th.colspan="2".class="infobox-above">Artist.swimming<br./><div.style="font-size:85%">at.the.Games.of.the.XXXII.Olympiad</div></th></tr>'
+     r'<h3><span.class="mw-headline".id="1_January">1.January</span>'
      return t
 
 def t_OPENTABLE(t):
@@ -42,6 +42,16 @@ def t_OPENTABLE(t):
 def t_CLOSETABLE(t):
     r'</tbody[^>]*>'
     return t
+
+def t_OPENP(t):
+    r'<p[^>]*>'
+    return t
+
+def t_CLOSEP(t):
+    r'</p[^>]*>'
+    return t
+
+
 
 def t_OPENROW(t):
     r'<tr[^>]*>'
@@ -110,63 +120,19 @@ def p_start(p):
     
 
 def p_skiptag(p):
-    '''skiptag : CONTENT skiptag
+    '''skiptag : CONTENT skiptag empty
                | OPENHREF skiptag
                | CLOSEHREF skiptag
                | empty'''
-               
+    if len(p) == 4:
+            print(p[1])
 
 def p_table(p):
-    '''table : BEGINTABLE handler'''
-
-def p_handleheader(p):
-    '''handleheader : OPENHEADER CONTENT CLOSEHEADER handleheader
-                    | empty'''
-    if len(p) == 5:
-       print("Header: ", p[2])
-
-def p_dataCell(p):
-    '''dataCell : OPENDATA OPENHREF CONTENT CLOSEHREF CLOSEDATA dataCell
-    		    | OPENDATA CONTENT OPENHREF CONTENT CLOSEHREF CLOSEDATA dataCell
-                | OPENDATA CLOSEDATA dataCell
-                | empty'''
-    if len(p)==7:
-       print(p[3])
-       
+    '''table : BEGINTABLE skiptag OPENP skiptag CLOSEP'''
 
 
-def p_handlerow(p):
-    '''handlerow : OPENROW handleheader CLOSEROW handlerow 
-                 | OPENROW dataCell CLOSEROW handlerow
-                 | OPENROW handleheader dataCell CLOSEROW handlerow
-                 | empty'''
-    if len(p)==5:
-        print("dekho:",p[3])
-        
-def p_data(p):
-    '''data : OPENHEADER CONTENT CLOSEHEADER OPENDATA OPENHREF CONTENT CONTENT CONTENT CLOSEHREF CLOSEDATA 
-            | OPENHEADER CONTENT CLOSEHEADER OPENDATA CONTENT CONTENT CONTENT CONTENT CLOSEDATA
-            | OPENHEADER OPENHREF CONTENT CLOSEHREF CONTENT CONTENT CLOSEHEADER OPENDATA CONTENT CLOSEDATA empty
-            | OPENHEADER CONTENT CLOSEHEADER OPENDATA CONTENT CONTENT CONTENT CONTENT CONTENT CONTENT CLOSEDATA empty empty'''
-    if len(p) == 11:
-        print("venue:",p[6],p[7],p[8])
-    if len(p) == 10:
-        print("dates:",p[5],p[6],p[7],p[8])
-    if len(p) == 12:
-        print("number of events:",p[9])
-    if len(p) == 14:
-        print("competitors:",p[5],p[7],p[8],p[10])
 
-def p_handler(p):
-    '''
-        handler : OPENROW OPENDATA OPENHREF CLOSEHREF skiptag CLOSEDATA CLOSEROW OPENROW data CLOSEROW OPENROW
-                | OPENROW OPENDATA OPENHREF CLOSEHREF skiptag CLOSEDATA CLOSEROW OPENROW data CLOSEROW OPENROW data CLOSEROW OPENROW
-                | OPENROW OPENDATA OPENHREF CLOSEHREF skiptag CLOSEDATA CLOSEROW OPENROW data CLOSEROW OPENROW data CLOSEROW OPENROW data CLOSEROW OPENROW 
-                | OPENROW OPENDATA OPENHREF CLOSEHREF skiptag CLOSEDATA CLOSEROW OPENROW data CLOSEROW OPENROW data CLOSEROW OPENROW data CLOSEROW OPENROW data CLOSEROW OPENROW
-                | empty
-    '''
 
-   
 
 def p_empty(p):
     '''empty :'''
@@ -182,7 +148,7 @@ def p_error(p):
 
 #########DRIVER FUNCTION#######
 def main():
-    file_obj= open('t.html','r',encoding="utf-8")
+    file_obj= open('jan2020.html','r',encoding="utf-8")
     data=file_obj.read()
     lexer = lex.lex()
     lexer.input(data)
