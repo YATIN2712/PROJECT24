@@ -1,5 +1,12 @@
 # -*- coding: utf-8 -*-
 """
+Created on Fri Feb  9 11:32:54 2024
+
+@author: yatin
+"""
+
+# -*- coding: utf-8 -*-
+"""
 Created on Thu Feb  8 12:15:48 2024
 
 @author: yatin
@@ -33,11 +40,11 @@ t_ignore = '\t'
 
 ###############Tokenizer Rules################
 def t_BEGINTABLE(t):
-     r'<h3><span.class="mw-headline".id="1_January">1.January</span>'
+     r'<h3><span.class="mw-headline".id="1_February">1.February</span>'
      return t
  
 def t_END(t):
-    r'<h2><span.class="mw-headline".id="See_also">See.also</span>'
+    r'<h2><span.class="mw-headline".id="Reactions_and_measures_outside_mainland_China">Reactions.and.measures.outside.mainland.China</span>'
     return t
 
 def t_OPENTABLE(t):
@@ -161,7 +168,7 @@ def store(text1):
     text1 += ' ' + text
     return text1
 def main():
-    file_obj= open('jan2020.html','r',encoding="utf-8")
+    file_obj= open('feb2020.html','r',encoding="utf-8")
     data=file_obj.read()
     lexer = lex.lex()
     lexer.input(data)
@@ -171,7 +178,7 @@ def main():
     def extract_data(parser):
         
         result = parser.parse(data)
-        with open('jan2020.txt','w') as file:
+        with open('feb2020.txt','w') as file:
             file.write(text)
     # Menu loop
     while True:
