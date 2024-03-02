@@ -1,0 +1,289 @@
+Created by PLY version 3.11 (http://www.dabeaz.com/ply)
+
+Unused terminals:
+
+    CLOSEDATA
+    CLOSEDIV
+    CLOSEHEADER
+    CLOSEP
+    CLOSEROW
+    CLOSESPAN
+    CLOSESTYLE
+    CLOSETABLE
+    GARBAGE
+    OPENDATA
+    OPENDIV
+    OPENHEADER
+    OPENP
+    OPENROW
+    OPENSPAN
+    OPENSTYLE
+    OPENTABLE
+
+Grammar
+
+Rule 0     S' -> start
+Rule 1     start -> table
+Rule 2     skiptag -> CONTENT skiptag
+Rule 3     skiptag -> OPENHREF skiptag
+Rule 4     skiptag -> CLOSEHREF skiptag
+Rule 5     skiptag -> empty
+Rule 6     table -> BEGINTABLE handler
+Rule 7     empty -> <empty>
+Rule 8     content -> CONTENT
+Rule 9     content -> empty
+
+Terminals, with rules where they appear
+
+BEGINTABLE           : 6
+CLOSEDATA            : 
+CLOSEDIV             : 
+CLOSEHEADER          : 
+CLOSEHREF            : 4
+CLOSEP               : 
+CLOSEROW             : 
+CLOSESPAN            : 
+CLOSESTYLE           : 
+CLOSETABLE           : 
+CONTENT              : 2 8
+GARBAGE              : 
+OPENDATA             : 
+OPENDIV              : 
+OPENHEADER           : 
+OPENHREF             : 3
+OPENP                : 
+OPENROW              : 
+OPENSPAN             : 
+OPENSTYLE            : 
+OPENTABLE            : 
+error                : 
+
+Nonterminals, with rules where they appear
+
+content              : 
+empty                : 5 9
+handler              : 6
+skiptag              : 2 3 4
+start                : 0
+table                : 1
+
+     : 2 3 4 5 6 8
+start                : 0
+table                : 1
+
+Parsing method: LALR
+
+state 0
+
+    (0) S' -> . start
+    (1) start -> . table
+    (8) table -> . BEGINTABLE skiptag END
+
+    BEGINTABLE      shift and go to state 3
+
+    start                          shift and go to state 1
+    table                          shift and go to state 2
+
+state 1
+
+    (0) S' -> start .
+
+
+
+state 2
+
+    (1) start -> table .
+
+    $end            reduce using rule 1 (start -> table .)
+
+
+state 3
+
+    (8) table -> BEGINTABLE . skiptag END
+    (2) skiptag -> . CONTENT skiptag empty
+    (3) skiptag -> . OPENHREF skiptag
+    (4) skiptag -> . CLOSEHREF skiptag
+    (5) skiptag -> . OPENP skiptag
+    (6) skiptag -> . CLOSEP skiptag
+    (7) skiptag -> . empty
+    (9) empty -> .
+
+    CONTENT         shift and go to state 5
+    OPENHREF        shift and go to state 7
+    CLOSEHREF       shift and go to state 8
+    OPENP           shift and go to state 9
+    CLOSEP          shift and go to state 10
+    END             reduce using rule 9 (empty -> .)
+
+    skiptag                        shift and go to state 4
+    empty                          shift and go to state 6
+
+state 4
+
+    (8) table -> BEGINTABLE skiptag . END
+
+    END             shift and go to state 11
+
+
+state 5
+
+    (2) skiptag -> CONTENT . skiptag empty
+    (2) skiptag -> . CONTENT skiptag empty
+    (3) skiptag -> . OPENHREF skiptag
+    (4) skiptag -> . CLOSEHREF skiptag
+    (5) skiptag -> . OPENP skiptag
+    (6) skiptag -> . CLOSEP skiptag
+    (7) skiptag -> . empty
+    (9) empty -> .
+
+    CONTENT         shift and go to state 5
+    OPENHREF        shift and go to state 7
+    CLOSEHREF       shift and go to state 8
+    OPENP           shift and go to state 9
+    CLOSEP          shift and go to state 10
+    END             reduce using rule 9 (empty -> .)
+
+    skiptag                        shift and go to state 12
+    empty                          shift and go to state 6
+
+state 6
+
+    (7) skiptag -> empty .
+
+    END             reduce using rule 7 (skiptag -> empty .)
+
+
+state 7
+
+    (3) skiptag -> OPENHREF . skiptag
+    (2) skiptag -> . CONTENT skiptag empty
+    (3) skiptag -> . OPENHREF skiptag
+    (4) skiptag -> . CLOSEHREF skiptag
+    (5) skiptag -> . OPENP skiptag
+    (6) skiptag -> . CLOSEP skiptag
+    (7) skiptag -> . empty
+    (9) empty -> .
+
+    CONTENT         shift and go to state 5
+    OPENHREF        shift and go to state 7
+    CLOSEHREF       shift and go to state 8
+    OPENP           shift and go to state 9
+    CLOSEP          shift and go to state 10
+    END             reduce using rule 9 (empty -> .)
+
+    skiptag                        shift and go to state 13
+    empty                          shift and go to state 6
+
+state 8
+
+    (4) skiptag -> CLOSEHREF . skiptag
+    (2) skiptag -> . CONTENT skiptag empty
+    (3) skiptag -> . OPENHREF skiptag
+    (4) skiptag -> . CLOSEHREF skiptag
+    (5) skiptag -> . OPENP skiptag
+    (6) skiptag -> . CLOSEP skiptag
+    (7) skiptag -> . empty
+    (9) empty -> .
+
+    CONTENT         shift and go to state 5
+    OPENHREF        shift and go to state 7
+    CLOSEHREF       shift and go to state 8
+    OPENP           shift and go to state 9
+    CLOSEP          shift and go to state 10
+    END             reduce using rule 9 (empty -> .)
+
+    skiptag                        shift and go to state 14
+    empty                          shift and go to state 6
+
+state 9
+
+    (5) skiptag -> OPENP . skiptag
+    (2) skiptag -> . CONTENT skiptag empty
+    (3) skiptag -> . OPENHREF skiptag
+    (4) skiptag -> . CLOSEHREF skiptag
+    (5) skiptag -> . OPENP skiptag
+    (6) skiptag -> . CLOSEP skiptag
+    (7) skiptag -> . empty
+    (9) empty -> .
+
+    CONTENT         shift and go to state 5
+    OPENHREF        shift and go to state 7
+    CLOSEHREF       shift and go to state 8
+    OPENP           shift and go to state 9
+    CLOSEP          shift and go to state 10
+    END             reduce using rule 9 (empty -> .)
+
+    skiptag                        shift and go to state 15
+    empty                          shift and go to state 6
+
+state 10
+
+    (6) skiptag -> CLOSEP . skiptag
+    (2) skiptag -> . CONTENT skiptag empty
+    (3) skiptag -> . OPENHREF skiptag
+    (4) skiptag -> . CLOSEHREF skiptag
+    (5) skiptag -> . OPENP skiptag
+    (6) skiptag -> . CLOSEP skiptag
+    (7) skiptag -> . empty
+    (9) empty -> .
+
+    CONTENT         shift and go to state 5
+    OPENHREF        shift and go to state 7
+    CLOSEHREF       shift and go to state 8
+    OPENP           shift and go to state 9
+    CLOSEP          shift and go to state 10
+    END             reduce using rule 9 (empty -> .)
+
+    skiptag                        shift and go to state 16
+    empty                          shift and go to state 6
+
+state 11
+
+    (8) table -> BEGINTABLE skiptag END .
+
+    $end            reduce using rule 8 (table -> BEGINTABLE skiptag END .)
+
+
+state 12
+
+    (2) skiptag -> CONTENT skiptag . empty
+    (9) empty -> .
+
+    END             reduce using rule 9 (empty -> .)
+
+    empty                          shift and go to state 17
+
+state 13
+
+    (3) skiptag -> OPENHREF skiptag .
+
+    END             reduce using rule 3 (skiptag -> OPENHREF skiptag .)
+
+
+state 14
+
+    (4) skiptag -> CLOSEHREF skiptag .
+
+    END             reduce using rule 4 (skiptag -> CLOSEHREF skiptag .)
+
+
+state 15
+
+    (5) skiptag -> OPENP skiptag .
+
+    END             reduce using rule 5 (skiptag -> OPENP skiptag .)
+
+
+state 16
+
+    (6) skiptag -> CLOSEP skiptag .
+
+    END             reduce using rule 6 (skiptag -> CLOSEP skiptag .)
+
+
+state 17
+
+    (2) skiptag -> CONTENT skiptag empty .
+
+    END             reduce using rule 2 (skiptag -> CONTENT skiptag empty .)
+
